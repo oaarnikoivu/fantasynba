@@ -46,7 +46,7 @@ fviz_dist(res.dist, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4
 
 k <- 20
 
-km.res <- kmeans(scaled_data, k, nstart = 2)
+km.res <- kmeans(scaled_data, k, nstart = 20)
 
 fviz_cluster(km.res, scaled_data, ellipse = TRUE, ellipse.alpha = 0.1, 
              palette = "jco", repel = TRUE, ggtheme = theme_fivethirtyeight(),
@@ -170,6 +170,18 @@ visualize_stats_for_similar_players(studs)
 threePointSavuage <- get_players_in_cluster(18)
 show_similarity_for_players_in_cluster(threePointSavuage)
 visualize_stats_for_similar_players(threePointSavuage)
+
+ggplot(threePointSavuage, aes(x=FG., y=PTS)) + geom_text(label=threePointSavuage$PLAYER, size=3, angle=45) +
+  geom_smooth(method="auto", fill="blue") +
+  theme_fivethirtyeight() 
+
+ggplot(threePointSavuage, aes(x=MPG, y=FG., group=1)) + 
+  geom_boxplot(outlier.colour = "red", outlier.shape = 1, outlier.size = 4) +
+  geom_text(label=threePointSavuage$PLAYER, alpha=0.25, size=3, angle=45) +
+  coord_flip() + 
+  theme_fivethirtyeight()
+
+sd(threePointSavuage$X3PM)
 
 get_players_in_cluster(20) %>% DT::datatable()
 
