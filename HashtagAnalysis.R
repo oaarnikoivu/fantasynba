@@ -350,6 +350,8 @@ main_df <- do.call("rbind", list(PUNT_FG_TO, PUNT_FG_AST, PUNT_3PM_FT, PUNT_3PM_
   mutate("PUNT_TREB" = ifelse(PLAYER %in% c(PUNT_BLK_TREB$PLAYER), 1, 0)) %>%
   mutate("PUNT_STL" = ifelse(PLAYER %in% c(PUNT_AST_STL$PLAYER), 1, 0))
 
+write_csv(main_df, path = "/Users/olive/github/fantasynba/data/test.csv")
+
 
 
 
