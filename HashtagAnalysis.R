@@ -105,27 +105,94 @@ cluster_subset <- function(cluster) {
   return(list(subset, scaled_subset))
 }
 
-subset <- cluster_subset(2)[[1]]
-scaled_subset <- cluster_subset(2)[[2]]
-
-subset_km.res <- apply_kmeans(data = scaled_subset, k = 5, nstart = 20)
-show_clusters(subset_km.res, scaled_subset)
-
-subset_cluster_data <- subset %>%
-  mutate(Cluster = subset_km.res$cluster)
-
-test <- get_players_in_cluster(1, data = subset_cluster_data)
-#show_similarity_for_players_in_cluster(test)
-visualize_stats_for_similar_players(test)
-
-# Categorize
-CENTERS <- data.frame()
-
-for (i in 1:5) {
-  d <- get_players_in_cluster(i, data = subset_cluster_data)
-  CENTERS <- rbind(CENTERS, d)
+create_new_cluster_subset <- function(cluster, k, nstart) {
+  subset <- cluster_subset(cluster)[[1]]
+  scaled_subset <- cluster_subset(cluster)[[2]]
+  subset_km.res <- apply_kmeans(data = scaled_subset, k = k, nstart = nstart)
+  print(show_clusters(subset_km.res, scaled_subset))
+  return(list(subset, subset_km.res))
 }
 
+create_category <- function(data, k) {
+  df <- data.frame()
+  for (i in 1:k) {
+    d <- get_players_in_cluster(i, data = data)
+    df <- rbind(df, d)
+  }
+  return(df)
+}
+
+t <- create_new_cluster_subset(cluster = 5, k = 5, nstart = 20)[[2]]
+
+
+## Categorize players into distinct clusters
+
+studs <- create_new_cluster_subset(cluster = 3, k = 5, nstart = 20)
+studsSubset <- studs[[1]] %>%
+  mutate(Cluster = studs[[2]]$cluster) %>%
+  arrange(-desc(Cluster))
+
+centersCluster <- create_new_cluster_subset(cluster = 2, k = 5, nstart = 20)
+centersClusterSubset <- centersCluster[[1]] %>%
+  mutate(Cluster = centersCluster[[2]]$cluster) %>%
+  arrange(-desc(Cluster))
+
+shooters <- create_new_cluster_subset(cluster = 4, k = 5, nstart = 20)
+shootersSubset <- shooters[[1]] %>%
+  mutate(Cluster = shooters[[2]]$cluster) %>%
+  arrange(-desc(Cluster))
+
+allAroundForwardsAndCenters <- create_new_cluster_subset(cluster = 5, k = 5, nstart = 20)
+allAroundForwardsAndCentersSubset <- allAroundForwardsAndCenters[[1]] %>%
+  mutate(Cluster = allAroundForwardsAndCenters[[2]]$cluster) %>%
+  arrange(-desc(Cluster))
+
+# Punting Strategies
+
+## Identify strong categories
+
+visualize_variance <- function(players) {
+  players_numeric <- players %>%
+    select_if(is.numeric) %>%
+    select(-Cluster)
+  players_numeric <- scale(players_numeric)
+  row.names(players_numeric) <- players$PLAYER
+  ggplot(melt(players_numeric), aes(x=Var2, y=value)) + geom_boxplot(aes(fill=Var2), alpha=0.75) +
+    geom_text(label=melt(players_numeric)$Var1, size=3, alpha=0.25, angle=45) + 
+    theme_fivethirtyeight()
+}
+
+### Studs
+
+##### Strong assists, TREB, FT. 
+sx <- get_players_in_cluster(1, studsSubset)
+visualize_stats_for_similar_players(sx)
+summary(sx)
+visualize_variance(sx)
+
+##### Strong assists, FT, TREB, 3PM 
+sy <- get_players_in_cluster(2, studsSubset)
+visualize_stats_for_similar_players(sy)
+summary(sy)
+visualize_variance(sy)
+
+##### Strong assists, PTS, 3PM, TREB
+sz <- get_players_in_cluster(3, studsSubset)
+visualize_stats_for_similar_players(sz)
+summary(sz)
+visualize_variance(sz)
+
+#### Strong assists, STL, Low TO
+sk <- get_players_in_cluster(4, studsSubset)
+visualize_stats_for_similar_players(sk)
+summary(z)
+visualize_variance(k)
+
+#### Strong assists, FT, 3PM, TREB,
+sj <- get_players_in_cluster(5, studsSubset)
+visualize_stats_for_similar_players(sj)
+summary(sj)
+visualize_variance(sj)
 
 
 
@@ -144,104 +211,38 @@ for (i in 1:5) {
 
 
 
-# Categorize players into clusters
 
-# ## BIGS
-# decentBigs <- get_players_in_cluster(1)
-# show_similarity_for_players_in_cluster(decentBigs)
-# visualize_stats_for_similar_players(decentBigs)
-# 
-# ## SHOOTING BIGS
-# shootingBigs <- get_players_in_cluster(3)
-# show_similarity_for_players_in_cluster(shootingBigs)
-# visualize_stats_for_similar_players(shootingBigs)
-# 
-# ## ALL AROUND BIGS
-# allAroundBigs <- get_players_in_cluster(4)
-# show_similarity_for_players_in_cluster(allAroundBigs)
-# visualize_stats_for_similar_players(allAroundBigs)
-# 
-# ## BIGS DONT SHOOT -> punt assist, punt ft, punt 3pm, punt stl, low mpg 
-# bigsDontShoot <- get_players_in_cluster(7)
-# show_similarity_for_players_in_cluster(bigsDontShoot)
-# visualize_stats_for_similar_players(bigsDontShoot)
-# 
-# ## OK BIGS - punt assist, low mpg - players to watch 
-# okBigs <- get_players_in_cluster(10)
-# show_similarity_for_players_in_cluster(okBigs)
-# visualize_stats_for_similar_players(okBigs)
-# 
-# ## DOMINATING BIGS
-# dominatingBigs <- get_players_in_cluster(12)
-# show_similarity_for_players_in_cluster(dominatingBigs)
-# visualize_stats_for_similar_players(dominatingBigs)
-# 
-# ## DEFENSIVE BEAST BIGS -> punt 3pm, meh to, very high rebounds, low ft, low assist 
-# defensiveBigs <- get_players_in_cluster(20)
-# show_similarity_for_players_in_cluster(defensiveBigs)
-# visualize_stats_for_similar_players(defensiveBigs)
-# 
-# ## SHOOTING FORWARDS
-# shootingForwards <- get_players_in_cluster(2)
-# show_similarity_for_players_in_cluster(shootingForwards)
-# visualize_stats_for_similar_players(shootingForwards)
-# 
-# ## DOMINATING FORWARDS - Requires further analysis
-# dominatingForwards <- get_players_in_cluster(5)
-# show_similarity_for_players_in_cluster(dominatingForwards)
-# visualize_stats_for_similar_players(dominatingForwards)
-# 
-# ## MEH FORWARDS
-# mehForwards <- get_players_in_cluster(9)
-# show_similarity_for_players_in_cluster(mehForwards)
-# visualize_stats_for_similar_players(mehForwards)
-# 
-# ## ALL AROUND GUARDS
-# allAroundGuards <- get_players_in_cluster(6)
-# show_similarity_for_players_in_cluster(allAroundGuards)
-# visualize_stats_for_similar_players(allAroundGuards)
-# 
-# ## GOOD GUARDS
-# goodGuards <- get_players_in_cluster(19)
-# show_similarity_for_players_in_cluster(goodGuards)
-# visualize_stats_for_similar_players(goodGuards)
-# 
-# ## HIGH ASSIST GUARDS <- punt FG, punt FT, punt TO, ignore 3pm 
-# highAssistGuards <- get_players_in_cluster(8)
-# show_similarity_for_players_in_cluster(highAssistGuards)
-# visualize_stats_for_similar_players(highAssistGuards)
-# 
-# ## DOMINATING GUARDS - terrible turnovers, low fg, everything else is <3
-# dominatingGuards <- get_players_in_cluster(15)
-# show_similarity_for_players_in_cluster(dominatingGuards)
-# visualize_stats_for_similar_players(dominatingGuards)
-# 
-# ## STUDS -> PUNT TURNOVERS, PUNT BLOCKS, GREAT ASSISTS, HIGH POINTS, ok FG
-# studs <- get_players_in_cluster(14)
-# show_similarity_for_players_in_cluster(studs)
-# visualize_stats_for_similar_players(studs)
-# 
-# ## 3 POINT SAVAGES - low assist, very very low blocks, p good fg, good ft,
-# ## great mpg, decent points, okay steals, very HIGH 3PM!
-# threePointSavuage <- get_players_in_cluster(18)
-# show_similarity_for_players_in_cluster(threePointSavuage)
-# visualize_stats_for_similar_players(threePointSavuage)
-# 
-# ggplot(threePointSavuage, aes(x=FG., y=PTS)) + geom_text(label=threePointSavuage$PLAYER, size=3, angle=45) +
+
+
+
+
+
+
+
+
+
+
+
+puntFTTOPG <- get_players_in_cluster(4, studsSubset)
+visualize_stats_for_similar_players(puntFTTOPG)
+
+c <- get_players_in_cluster(1, centersClusterSubset)
+visualize_stats_for_similar_players(c)
+
+## 2. Field Goal Percentage
+
+puntFGForwards <- get_players_in_cluster(1, shootersSubset)
+visualize_stats_for_similar_players(puntFGForwards)
+
+puntFGGuards <- get_players_in_cluster(4, shootersSubset)
+visualize_stats_for_similar_players(puntFGGuards)
+
+t <- get_players_in_cluster(5, shootersSubset)
+visualize_stats_for_similar_players(t)
+
+# ggplot(test, aes(x=AST, y=TO)) + geom_text(label=test$PLAYER, size=3, angle=45) +
 #   geom_smooth(method="auto", fill="blue") +
-#   theme_fivethirtyeight() 
-# 
-# ggplot(threePointSavuage, aes(x=MPG, y=FG., group=1)) + 
-#   geom_boxplot(outlier.colour = "red", outlier.shape = 1, outlier.size = 4) +
-#   geom_text(label=threePointSavuage$PLAYER, alpha=0.25, size=3, angle=45) +
-#   coord_flip() + 
 #   theme_fivethirtyeight()
-# 
-# sd(threePointSavuage$X3PM)
-# 
-# get_players_in_cluster(20) %>% DT::datatable()
-
-
 
 
 
