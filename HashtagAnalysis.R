@@ -184,7 +184,7 @@ visualize_stats_for_similar_players(sz)
 summary(sz)
 visualize_variance(sz)
 
-#### Strong assists, STL, Low TO
+#### Strong assists, STL, Low TO -> TODO
 sk <- get_players_in_cluster(4, studsSubset)
 visualize_stats_for_similar_players(sk)
 summary(z)
@@ -286,11 +286,30 @@ afwj <- get_players_in_cluster(5, allAroundForwardsAndCentersSubset)
 visualize_stats_for_similar_players(afwj)
 visualize_variance(afwj)
 
+#### Categorize players into 2 Punt Strategies
 
+################## PUNT FG% and TO ######################
+PUNT_FG_TO <- do.call("rbind", list(sx, sy, sz, sj, afwk))
 
+PUNT_FG <- do.call("rbind", list(shx, afwx))
 
+PUNT_TO <- do.call("rbind", list(afwz))
 
+################## PUNT FG%, BLK, and PTS ######################
+PUNT_FG_BLK_PTS <- do.call("rbind", list(shy))
 
+################## PUNT FG%, BLK, and TO ######################
+PUNT_FG_BLK_TO <- do.call("rbind", list(shz, shk, shj))
+
+################## PUNT X3PM, AST and PTS ######################
+PUNT_X3PM_AST_PTS <- do.call("rbind", list(cx, cy, cz, ck, cj)) 
+
+################# PUNT X3PM, TO, FT #####################
+PUNT_X3PM_TO_FT <- do.call("rbind",  list(afwy, afwj))
+
+#################################################################################
+visualize_variance(PUNT_X3PM_TO_FT)
+visualize_stats_for_similar_players(PUNT_X3PM_TO_FT)
 
 
 
