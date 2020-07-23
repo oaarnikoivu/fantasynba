@@ -159,7 +159,9 @@ visualize_variance <- function(players) {
   row.names(players_numeric) <- players$PLAYER
   ggplot(melt(players_numeric), aes(x=Var2, y=value)) + geom_boxplot(aes(fill=Var2), alpha=0.75) +
     geom_text(label=melt(players_numeric)$Var1, size=3, alpha=0.25, angle=45) + 
-    theme_fivethirtyeight()
+    theme_fivethirtyeight() + 
+    labs(title = "Boxplot for each stat", 
+         subtitle = "This graph visualizes the distribution, central value, and variability for each of the players stats.")
 }
 
 ### Studs
@@ -194,6 +196,95 @@ visualize_stats_for_similar_players(sj)
 summary(sj)
 visualize_variance(sj)
 
+### Centers
+
+#### Terrible 3PM, Low MPG, Good BLK, Good TREB, Good FG
+cx <- get_players_in_cluster(1, centersClusterSubset)
+visualize_stats_for_similar_players(cx)
+summary(cx)
+visualize_variance(cx)
+
+#### Terrible 3PM, Okay BLKS, Good FG, Terrible FT, Bad PTS, Great TREB
+cy <- get_players_in_cluster(2, centersClusterSubset)
+visualize_stats_for_similar_players(cy)
+summary(cy)
+visualize_variance(cy)
+
+#### Great MPG, Great FG, Bad FT, No X3PM, Okay PTS, Amazing TREB, Amazing BLKS, Okay TO
+##### DEFENSIVE 
+cz <- get_players_in_cluster(3, centersClusterSubset)
+visualize_stats_for_similar_players(cz)
+summary(cz)
+
+#### Okay MPG, Okay FG, Okay FT, Terrible 3PM, Meh PTS, Okay BLKS
+#### ? Bigs
+ck <- get_players_in_cluster(4, centersClusterSubset)
+visualize_stats_for_similar_players(ck)
+summary(ck)
+visualize_variance(ck)
+
+#### Okay MPG, Okay FG, Okay FT, Bad 3PM, Bad PTS
+#### Rising BIGS
+cj <- get_players_in_cluster(5, centersClusterSubset)
+visualize_stats_for_similar_players(cj)
+summary(cj)
+visualize_variance(cj)
+
+### Shooters
+
+#### Okay AST, Okay BLK, Low FG, Great FT, Pretty good STL, Good TREB and very good 3PM 
+shx <- get_players_in_cluster(1, shootersSubset)
+visualize_stats_for_similar_players(shx)
+visualize_variance(shx)
+
+#### Okay AST, Terrible BLK, bad FG, great FT, low PTS, Great 3PM, okay TREB
+shy <- get_players_in_cluster(2, shootersSubset)
+visualize_stats_for_similar_players(shy)
+visualize_variance(shy)
+
+#### V good aST, low BLK, low FG, great FT, good PTS, quite a high TO, pretty good TREB, very good 3PM
+shz <- get_players_in_cluster(3, shootersSubset)
+visualize_stats_for_similar_players(shz)
+visualize_variance(shz)
+
+#### good ast, low blk, TERRIBLE fg, okay FT, Okay pts, good STL, good TREB, great X3PM
+shk <- get_players_in_cluster(4, shootersSubset)
+visualize_stats_for_similar_players(shk)
+visualize_variance(shk)
+
+#### Great AST, low BLK, poor fg, p good ft, low pts, high to, very good TREB, okay X3PM
+shj <- get_players_in_cluster(5, shootersSubset)
+visualize_stats_for_similar_players(shj)
+visualize_variance(shj)
+
+### All around forwards n centers
+
+#### meh AST, Good BLK, not the greatest FG, meh FT, good PTS, Good TREB, good STL, Okay 3PM
+afwx <- get_players_in_cluster(1, allAroundForwardsAndCentersSubset)
+visualize_stats_for_similar_players(afwx)
+visualize_variance(afwx)
+summary(afwx)
+
+#### Pretty goof AST, Good BLK, Okay FG, Meh FT, Low X3PM, Great TREB, Good STL, High TO
+afwy <- get_players_in_cluster(2, allAroundForwardsAndCentersSubset)
+visualize_stats_for_similar_players(afwy)
+visualize_variance(afwy)
+summary(afwy)
+
+#### Good AST, Good BLK, Okay FG, Great FT, Great PTS, Okay STL, High TO, Great TREB, Okay X3PM
+afwz <- get_players_in_cluster(3, allAroundForwardsAndCentersSubset)
+visualize_stats_for_similar_players(afwz)
+visualize_variance(afwz)
+
+#### Good AST, Okay BLK, Meh FG, Okay FT, Good X3PM, Okay PTS, High TO, Great TREB, Great X3PM
+afwk <- get_players_in_cluster(4, allAroundForwardsAndCentersSubset)
+visualize_stats_for_similar_players(afwk)
+visualize_variance(afwk)
+
+#### Giannis and Andre Drummond 
+afwj <- get_players_in_cluster(5, allAroundForwardsAndCentersSubset)
+visualize_stats_for_similar_players(afwj)
+visualize_variance(afwj)
 
 
 
@@ -218,31 +309,6 @@ visualize_variance(sj)
 
 
 
-
-
-
-
-
-puntFTTOPG <- get_players_in_cluster(4, studsSubset)
-visualize_stats_for_similar_players(puntFTTOPG)
-
-c <- get_players_in_cluster(1, centersClusterSubset)
-visualize_stats_for_similar_players(c)
-
-## 2. Field Goal Percentage
-
-puntFGForwards <- get_players_in_cluster(1, shootersSubset)
-visualize_stats_for_similar_players(puntFGForwards)
-
-puntFGGuards <- get_players_in_cluster(4, shootersSubset)
-visualize_stats_for_similar_players(puntFGGuards)
-
-t <- get_players_in_cluster(5, shootersSubset)
-visualize_stats_for_similar_players(t)
-
-# ggplot(test, aes(x=AST, y=TO)) + geom_text(label=test$PLAYER, size=3, angle=45) +
-#   geom_smooth(method="auto", fill="blue") +
-#   theme_fivethirtyeight()
 
 
 
