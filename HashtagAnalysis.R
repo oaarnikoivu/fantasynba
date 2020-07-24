@@ -172,11 +172,23 @@ visualize_stats_for_similar_players(sx)
 summary(sx)
 visualize_variance(sx)
 
+sx_punt_to <- sx
+sx_punt_3pm <- sx %>%
+  filter(X3PM <= 1)
+sx_punt_blk <- sx %>%
+  filter(BLK <= 0.5)
+
 ##### Strong assists, FT, TREB, 3PM 
 sy <- get_players_in_cluster(2, studsSubset)
 visualize_stats_for_similar_players(sy)
 summary(sy)
 visualize_variance(sy)
+
+sy_punt_fg <- sy %>%
+  filter(FG. < 0.45)
+sy_punt_to <- sy %>%
+  filter(TO >= 2)
+sy_punt_blk <- sy
 
 ##### Strong assists, PTS, 3PM, TREB
 sz <- get_players_in_cluster(3, studsSubset)
@@ -184,17 +196,40 @@ visualize_stats_for_similar_players(sz)
 summary(sz)
 visualize_variance(sz)
 
+`%notin%` <- Negate(`%in%`)
+
+sz_punt_to <- sz %>%
+  filter(TO >= 2)
+sz_punt_3pm <- sz %>%
+  filter(X3PM <= 1)
+sz_punt_ft <- sz %>%
+  filter(FT. <= 0.75)
+
 #### Strong assists, STL, Low TO -> TODO
 sk <- get_players_in_cluster(4, studsSubset)
 visualize_stats_for_similar_players(sk)
 summary(z)
 visualize_variance(k)
 
+sk_punt_3pm <- sk %>%
+  filter(X3PM <= 1)
+sk_punt_to <- sk %>%
+  filter(TO >= 2)
+sk_punt_fg <- sk %>%
+  filter(FG. < 0.45)
+
 #### Strong assists, FT, 3PM, TREB,
 sj <- get_players_in_cluster(5, studsSubset)
 visualize_stats_for_similar_players(sj)
 summary(sj)
 visualize_variance(sj)
+
+sj_punt_fg <- sj %>%
+  filter(FG. < 0.45)
+sj_punt_3pm <- sj %>%
+  filter(X3PM <= 1)
+sj_punt_to <- sj %>%
+  filter(TO >= 2)
 
 ### Centers
 
@@ -204,17 +239,32 @@ visualize_stats_for_similar_players(cx)
 summary(cx)
 visualize_variance(cx)
 
+cx_punt_3pm <- cx 
+cx_punt_ft <- cx %>%
+  filter(FT. <= 0.75)
+cx_punt_ast <- cx %>%
+  filter(AST <= 1.5)
+
 #### Terrible 3PM, Okay BLKS, Good FG, Terrible FT, Bad PTS, Great TREB
 cy <- get_players_in_cluster(2, centersClusterSubset)
 visualize_stats_for_similar_players(cy)
 summary(cy)
 visualize_variance(cy)
 
+cy_punt_3pm <- cy 
+cy_punt_ast <- cy %>%
+  filter(AST <= 1.5)
+cy_punt_ft <- cy %>%
+  filter(FT. <= 0.75)
+
 #### Great MPG, Great FG, Bad FT, No X3PM, Okay PTS, Amazing TREB, Amazing BLKS, Okay TO
 ##### DEFENSIVE 
 cz <- get_players_in_cluster(3, centersClusterSubset)
 visualize_stats_for_similar_players(cz)
 summary(cz)
+
+cz_punt_3pm <- cz 
+cz_punt_ft <- cz
 
 #### Okay MPG, Okay FG, Okay FT, Terrible 3PM, Meh PTS, Okay BLKS
 #### ? Bigs
@@ -223,12 +273,26 @@ visualize_stats_for_similar_players(ck)
 summary(ck)
 visualize_variance(ck)
 
+ck_punt_3pm <- ck 
+ck_punt_ast <- ck %>%
+  filter(AST <= 1.5)
+ck_punt_ft <- ck %>% 
+  filter(PLAYER %notin% c("Richaun Holmes"))
+
 #### Okay MPG, Okay FG, Okay FT, Bad 3PM, Bad PTS
 #### Rising BIGS
 cj <- get_players_in_cluster(5, centersClusterSubset)
 visualize_stats_for_similar_players(cj)
 summary(cj)
 visualize_variance(cj)
+
+cj_punt_pts <- cj %>%
+  filter(PTS < 10)
+
+cj_punt_3pm <- cj
+
+cj_punt_ast <- cj %>%
+  filter(AST <= 1.5)
 
 ### Shooters
 
@@ -237,25 +301,66 @@ shx <- get_players_in_cluster(1, shootersSubset)
 visualize_stats_for_similar_players(shx)
 visualize_variance(shx)
 
+shx_punt_ast <- shx %>%
+  filter(FG. < 0.45) %>%
+  filter(AST <= 2)
+
+shx_punt_fg <- shx 
+
 #### Okay AST, Terrible BLK, bad FG, great FT, low PTS, Great 3PM, okay TREB
 shy <- get_players_in_cluster(2, shootersSubset)
 visualize_stats_for_similar_players(shy)
 visualize_variance(shy)
+
+shy_punt_blk <- shy %>%
+  filter(PLAYER %notin% c("Zach Collins "))
+
+shy_punt_fg <- shy %>%
+  filter(FG. < 0.45)
+
+shy_punt_ast <- shy %>%
+  filter(AST <= 2)
 
 #### V good aST, low BLK, low FG, great FT, good PTS, quite a high TO, pretty good TREB, very good 3PM
 shz <- get_players_in_cluster(3, shootersSubset)
 visualize_stats_for_similar_players(shz)
 visualize_variance(shz)
 
+shz_punt_fg <- shz %>%
+  filter(FG. < 0.45)
+
+shz_punt_blk <- shz 
+
+shz_punt_to <- shz %>%
+  filter(TO >= 2.0)
+
 #### good ast, low blk, TERRIBLE fg, okay FT, Okay pts, good STL, good TREB, great X3PM
 shk <- get_players_in_cluster(4, shootersSubset)
 visualize_stats_for_similar_players(shk)
 visualize_variance(shk)
 
+shk_punt_ast <- shk %>%
+  filter(AST <= 2)
+shk_punt_blk <- shk
+shk_punt_fg <- shk %>%
+  filter(FG. < 0.45)
+shk_punt_ft <- shk %>%
+  filter(FT. <= 0.75)
+
 #### Great AST, low BLK, poor fg, p good ft, low pts, high to, very good TREB, okay X3PM
 shj <- get_players_in_cluster(5, shootersSubset)
 visualize_stats_for_similar_players(shj)
 visualize_variance(shj)
+
+shj_punt_to <- shj %>%
+  filter(TO >= 2)
+shj_punt_3pm <- shj %>%
+  filter(X3PM <= 1)
+shj_punt_ft <- shj %>%
+  filter(FT. <= 0.75)
+shj_punt_pts <- shj %>%
+  filter(PTS < 10)
+shj_punt_blk <- shj
 
 ### All around forwards n centers
 
@@ -265,31 +370,146 @@ visualize_stats_for_similar_players(afwx)
 visualize_variance(afwx)
 summary(afwx)
 
+afwx_punt_fg <- afwx %>%
+  filter(FG. < 0.45)
+afwx_punt_3pm <- afwx %>%
+  filter(X3PM < 1)
+afwx_punt_ast <- afwx %>%
+  filter(AST <= 1.5)
+afwx_punt_stl <- afwx %>%
+  filter(STL <= 0.6)
+
 #### Pretty goof AST, Good BLK, Okay FG, Meh FT, Low X3PM, Great TREB, Good STL, High TO
 afwy <- get_players_in_cluster(2, allAroundForwardsAndCentersSubset)
 visualize_stats_for_similar_players(afwy)
 visualize_variance(afwy)
 summary(afwy)
 
+afwy_punt_3pm <- afwy %>%
+  filter(X3PM < 1)
+afwy_punt_to <- afwy %>%
+  filter(TO >= 2)
+afwy_punt_ast <- afwy %>%
+  filter(AST < 3)
+afwy_punt_ft <- afwy %>%
+  filter(FT. < 0.75)
+
 #### Good AST, Good BLK, Okay FG, Great FT, Great PTS, Okay STL, High TO, Great TREB, Okay X3PM
 afwz <- get_players_in_cluster(3, allAroundForwardsAndCentersSubset)
 visualize_stats_for_similar_players(afwz)
 visualize_variance(afwz)
+
+afwz_punt_to <- afwz
 
 #### Good AST, Okay BLK, Meh FG, Okay FT, Good X3PM, Okay PTS, High TO, Great TREB, Great X3PM
 afwk <- get_players_in_cluster(4, allAroundForwardsAndCentersSubset)
 visualize_stats_for_similar_players(afwk)
 visualize_variance(afwk)
 
+afwk_punt_ast <- afwk %>%
+  filter(AST < 3)
+afwk_punt_blk <- afwk %>%
+  filter(BLK < 0.5)
+afwk_punt_fg <- afwk %>%
+  filter(FG. < 0.45)
+afwk_punt_ft <- afwk %>%
+  filter(FT. < 0.75)
+afwk_punt_to <- afwk %>%
+  filter(TO >= 2)
+
 #### Giannis and Andre Drummond 
 afwj <- get_players_in_cluster(5, allAroundForwardsAndCentersSubset)
 visualize_stats_for_similar_players(afwj)
 visualize_variance(afwj)
 
-#### Categorize players into 2 Punt Strategies
+afwj_punt_ast <- afwj %>%
+  filter(AST < 3)
+afwj_punt_ft <- afwj %>%
+  filter(FT. < 0.75)
+afwj_punt_to <- afwj 
+afwj_punt_3pm <- afwj %>%
+  filter(X3PM < 1)
+
+#### PUNT
+
+PUNT_FG <- do.call("rbind", list(sx_punt_fg, sy_punt_fg, sk_punt_fg, sj_punt_fg, 
+                   shx_punt_fg, shy_punt_fg, shz_punt_fg, shk_punt_fg,
+                   afwx_punt_fg, afwk_punt_fg))
+
+PUNT_FT <- do.call("rbind", list(sx_punt_ft, sz_punt_ft, cx_punt_ft, cy_punt_ft, cz_punt_ft, ck_punt_ft,
+                   shz_punt_ft, shk_punt_ft, shj_punt_ft, afwy_punt_ft, afwk_punt_ft, afwj_punt_ft))
+
+PUNT_3PM <- do.call("rbind", list(sx_punt_3pm, sz_punt_3pm, sk_punt_3pm, sj_punt_3pm,
+                    cx_punt_3pm, cy_punt_3pm, cz_punt_3pm, ck_punt_3pm, cj_punt_3pm,
+                    shj_punt_3pm, afwx_punt_3pm, afwy_punt_3pm, afwj_punt_3pm))
+
+PUNT_PTS <- do.call("rbind", list(cj_punt_pts, shj_punt_pts))
+
+PUNT_AST <- do.call("rbind", list(cx_punt_ast, cy_punt_ast, ck_punt_ast, cj_punt_ast,
+                    shx_punt_ast, shy_punt_ast, shk_punt_ast, 
+                    afwx_punt_ast, afwy_punt_ast, afwk_punt_ast, afwj_punt_ast))
+
+PUNT_STL <- do.call("rbind", list(afwx_punt_stl))
+
+PUNT_BLK <- do.call("rbind", list(sx_punt_blk, sy_punt_blk, shy_punt_blk, shz_punt_blk, shk_punt_blk, shj_punt_blk,
+                                  afwk_punt_blk))
+
+PUNT_TO <- do.call("rbind", list(sx_punt_to, sy_punt_to, sz_punt_to, sk_punt_to, sj_punt_to,
+                                 shj_punt_to, 
+                                 afwy_punt_to, afwz_punt_to, afwk_punt_to, afwj_punt_to))
+
+main_df <- do.call("rbind", list(sx, sy, sz, sk, sj, cx, cy, cz, ck, cj, shx, shy, shz, shk, shj, afwx, afwy, afwz, afwk, afwj)) %>%
+  mutate("PUNT_FG" = ifelse(PLAYER %in% PUNT_FG$PLAYER, 1, 0)) %>%
+  mutate("PUNT_FT" = ifelse(PLAYER %in% PUNT_FT$PLAYER, 1, 0)) %>%
+  mutate("PUNT_3PM" = ifelse(PLAYER %in% PUNT_3PM$PLAYER, 1, 0)) %>%
+  mutate("PUNT_PTS" = ifelse(PLAYER %in% PUNT_PTS$PLAYER, 1, 0)) %>%
+  mutate("PUNT_AST" = ifelse(PLAYER %in% PUNT_AST$PLAYER, 1, 0)) %>%
+  mutate("PUNT_STL" = ifelse(PLAYER %in% PUNT_STL$PLAYER, 1, 0)) %>%
+  mutate("PUNT_BLK" = ifelse(PLAYER %in% PUNT_BLK$PLAYER, 1, 0)) %>%
+  mutate("PUNT_TO" = ifelse(PLAYER %in% PUNT_TO$PLAYER, 1, 0)) %>%
+  select(-Cluster)
+
+write_csv(main_df, path = "/Users/olive/github/fantasynba/data/nba_data.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sx_new <- sx %>%
+  filter(PLAYER != "DeMar DeRozan")
+
+sy_new <- sy %>%
+  filter(PLAYER != "Chris Paul")
+
+sz_new <- sz %>%
+  filter(PLAYER != "LeBron James") %>%
+  filter(PLAYER != "Russel Westbrook") %>%
+  filter(PLAYER != "Luka Doncic")
 
 sk_new <- sk %>%
   filter(PLAYER != "Ben Simmons ")
+
+sj_new <- sj %>%
+  filter(PLAYER != "Ja Morant")
 
 shy_new <- shy %>%
   filter(PLAYER != "Zach Collins")
@@ -301,11 +521,11 @@ afwx_new <- afwx %>%
 afwy_new <- afwy %>%
   filter(PLAYER != "John Collins")
 
-PUNT_FG_TO <- do.call("rbind", list(sx, sy, sz, sj, sk_new, afwk, shj))
+PUNT_FG_TO <- do.call("rbind", list(sx_new, sy_new, sz_new, sj_new, sk_new, afwk, shj))
 
 PUNT_FG_AST <- do.call("rbind", list(shx))
 
-PUNT_3PM_FT <- do.call("rbind", list(cx, cy, cz, ck))
+PUNT_3PM_FT_AST <- do.call("rbind", list(cx, cy, cz, ck))
 
 PUNT_3PM_AST <- do.call("rbind", list(cj))
 
@@ -331,6 +551,18 @@ ISAAC_X_IBAKA <- afwx %>%
   filter(PLAYER %in% c("Jonathan Isaac ", "Serge Ibaka"))
 JOHN_COLLINS <- afwy %>%
   filter(PLAYER == "John Collins ")
+DEMAR <- sx %>% 
+  filter(PLAYER == "DeMar DeRozan")
+CHRIS_PAUL <- sy %>%
+  filter(PLAYER == "Chris Paul")
+LEBRON <- sz %>%
+  filter(PLAYER == "LeBron James")
+DONCIC <- sz %>%
+  filter(PLAYER == "Luka Doncic")
+WESTBROOK <- sz %>%
+  filter(PLAYER == "Russel Westbrook")
+MORANT <- sj %>%
+  filter(PLAYER == "Ja Morant")
 
 OUTLIERS <- do.call("rbind", list(BEN_SIMMONS, ZACH_COLLINS, ISAAC_X_IBAKA, JOHN_COLLINS, afwj))
 
@@ -351,6 +583,8 @@ main_df <- do.call("rbind", list(PUNT_FG_TO, PUNT_FG_AST, PUNT_3PM_FT, PUNT_3PM_
   mutate("PUNT_STL" = ifelse(PLAYER %in% c(PUNT_AST_STL$PLAYER), 1, 0))
 
 write_csv(main_df, path = "/Users/olive/github/fantasynba/data/test.csv")
+
+
 
 
 
