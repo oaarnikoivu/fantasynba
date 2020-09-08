@@ -6,9 +6,13 @@ I started getting into fantasy basketball in the 2019-2020 season, and began inv
 
 I exported the rankings data from [Hashtag Basketball](https://hashtagbasketball.com/fantasy-basketball-rankings) into microsoft excel, applied some manual data cleaning, and simply loaded the data into R. The data can be found [here](https://github.com/oaarnikoivu/fantasynba/blob/master/rankings.xlsx).
 
-## Clusters
+## Cluster examples
 
 ### Studs
 
 ![Studs-stats](images/sx_stats.jpg)
 ![Studs-variance](images/sx_var.jpg)
+
+### Centers
+
+![centers](images/centers.jpg)
