@@ -32,4 +32,4 @@ After running KMeans to identify players in similar clusters, I started noticing
 
 I feed the dataset into a decision tree classifier using Scikit Learn and assess the model performance on Anthony Davis, Nikola Vucevic, Giannis Antetokounmpo, Zion Williamson, LeBron James, Devonte' Graham, Ben Simmons, Julius Randle and Domantas Sabonis. Below we see that the classifier does a good job in categorizing these players into their correct punting categories.
 
-![results](images/classifier.png =250x)
+![results](images/classifier.png | width=100)
