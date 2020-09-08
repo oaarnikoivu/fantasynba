@@ -8,5 +8,7 @@ I exported the rankings data from [Hashtag Basketball](https://hashtagbasketball
 
 ## Clusters
 
-1. Studs
-   ![Studs](images/sx_stats.jpg)
+### Studs
+
+![Studs-stats](images/sx_stats.jpg)
+![Studs-variance](images/sx_var.jpg)
