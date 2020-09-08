@@ -12,6 +12,7 @@ I exported the rankings data from [Hashtag Basketball](https://hashtagbasketball
 
 ![Studs-stats](images/sx_stats.jpg)
 ![Studs-variance](images/sx_var.jpg)
+![Studs2-stats](images/studs2.jpg)
 
 ### Centers
 

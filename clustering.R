@@ -192,7 +192,9 @@ sy_punt_blk <- sy
 
 ##### Strong assists, PTS, 3PM, TREB
 sz <- get_players_in_cluster(3, studsSubset)
+jpeg("studs2.jpg")
 visualize_stats_for_similar_players(sz)
+dev.off()
 summary(sz)
 visualize_variance(sz)
 
@@ -337,9 +339,7 @@ shz_punt_to <- shz %>%
 
 #### good ast, low blk, TERRIBLE fg, okay FT, Okay pts, good STL, good TREB, great X3PM
 shk <- get_players_in_cluster(4, shootersSubset)
-jpeg("shooters.jpg")
 visualize_stats_for_similar_players(shk)
-dev.off()
 visualize_variance(shk)
 
 shk_punt_ast <- shk %>%
