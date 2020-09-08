@@ -1,1 +1,3 @@
 # fantasynba
+
+I started getting into fantasy basketball in the 2019-2020 season, and began investigating methods which would maximize my chances of winning a league. Like many other beginners, I came across "punting". Punting is a strategy of completely giving up on one or more categories in a head to head category league in order to select players who maximize your team's strengths in other categories. If you don't know much about basketball, it's difficult to determine which punt cateogory or categories a specific player belongs to. Thus, I thought maybe I could use K-Means to cluster players into their respective punt categories.
