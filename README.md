@@ -24,6 +24,12 @@ I exported the rankings data from [Hashtag Basketball](https://hashtagbasketball
 
 ---
 
-After running KMeans to identify players in similar clusters, I started noticing some similarities for certain players. I created a multi-label classification dataset by adding all the possible punt categories. If players in specific clusters have a value below a certain threshold, the category gets labelled with a 1 (indicating that the stat is puntable), otherwise with a 0. For example, if players in the "stud" cluster have a field goald percentage of less than 0.45, a 1 is added under the "PUNT_FG" column.
+After running KMeans to identify players in similar clusters, I started noticing some similarities for certain players. I created a multi-label classification dataset by adding all the possible punt categories. If players in specific clusters have a value below a certain threshold, the category gets labelled with a 1 (indicating that the stat is puntable), otherwise with a 0. For example, if players in the "stud" cluster have a field goald percentage of less than 0.45, a 1 is added under the "PUNT_FG" column. The dataset is available [here](https://github.com/oaarnikoivu/fantasynba/tree/master/data).
 
 ![data](images/data.png)
+
+## Decision Tree Classifier
+
+I feed the dataset into a decision tree classifier using Scikit Learn and assess the model performance on Anthony Davis, Nikola Vucevic, Giannis Antetokounmpo, Zion Williamson, LeBron James, Devonte' Graham, Ben Simmons, Julius Randle and Domantas Sabonis. Below we see that the classifier does a good job in categorizing these players into their correct punting categories.
+
+![results](images/classifier.png)
