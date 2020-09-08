@@ -16,3 +16,7 @@ I exported the rankings data from [Hashtag Basketball](https://hashtagbasketball
 ### Centers
 
 ![centers](images/centers.jpg)
+
+### Shooters
+
+![shooters](images/shooters.jpg)

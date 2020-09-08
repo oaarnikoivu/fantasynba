@@ -262,6 +262,7 @@ cy_punt_ft <- cy %>%
 cz <- get_players_in_cluster(3, centersClusterSubset)
 visualize_stats_for_similar_players(cz)
 summary(cz)
+visualize_variance(cz)
 
 cz_punt_3pm <- cz 
 cz_punt_ft <- cz
@@ -336,7 +337,9 @@ shz_punt_to <- shz %>%
 
 #### good ast, low blk, TERRIBLE fg, okay FT, Okay pts, good STL, good TREB, great X3PM
 shk <- get_players_in_cluster(4, shootersSubset)
+jpeg("shooters.jpg")
 visualize_stats_for_similar_players(shk)
+dev.off()
 visualize_variance(shk)
 
 shk_punt_ast <- shk %>%
